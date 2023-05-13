@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
-from fairness_metric.unbalanced_dataset import Unbalanced_Dataset
-from fairness_metric.prevalence import Prevalence
-from fairness_metric.equal_opportunity import Equal_Opportunity
-from fairness_metric.equalized_odds import Equalized_Odds
-from fairness_metric.disparate_impact import Disparate_Impact
+from unbalanced_dataset import Unbalanced_Dataset
+from prevalence import Prevalence
+from equal_opportunity import Equal_Opportunity
+from equalized_odds import Equalized_Odds
+from disparate_impact import Disparate_Impact
 
 list_metric = ["unbalanced_dataset", "prevalence", "equal_opportunity", "equalized_odds", "disparate_impact"]
 
