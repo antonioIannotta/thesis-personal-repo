@@ -1,9 +1,9 @@
 import pandas as pd
-from fairness import Fairness
+#from fairness import Fairness
 
-class Equal_Opportunity(Fairness):
+class Equal_Opportunity():
     def __init__(self) -> None:
-        super().__init__()
+        pass
         
     def check(self, df: pd.DataFrame) -> None:
         pass

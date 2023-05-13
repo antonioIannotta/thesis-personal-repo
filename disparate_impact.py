@@ -1,9 +1,9 @@
 import pandas as pd
-from fairness import Fairness
+#from fairness import Fairness
 
-class Disparate_Impact(Fairness):
+class Disparate_Impact():
     def __init__(self) -> None:
-        super().__init__()
+        pass
         
     def check(self, df: pd.DataFrame) -> pd.DataFrame:
         y = df[df.columns[len(df.columns) - 1]][1:]
