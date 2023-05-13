@@ -16,7 +16,8 @@ class Fairness:
     def check_for_bias(self, df: pd.DataFrame, metric):
         fairness_metric = return_fairness_metric(metric)
         fairness_metric_obj = fairness_metric()
-        fairness_metric_obj.check(df)
+        result = fairness_metric_obj.check(df)
+        print(result)
 
 
 def return_fairness_metric(metric):
