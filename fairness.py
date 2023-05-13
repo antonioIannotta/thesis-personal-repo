@@ -13,10 +13,17 @@ class Fairness:
     def __init__(self) -> None:
         pass
 
-    def check_for_bias(self, df: pd.DataFrame, metric):
+    def check_for_bias(self, original_dataframe: pd.DataFrame, metric):
         fairness_metric = return_fairness_metric(metric)
         fairness_metric_obj = fairness_metric()
-        return fairness_metric_obj.check(df)
+        return fairness_metric_obj.check(original_dataframe)
+    
+    def establish_fairness(self, bias_analysis_dataframe: pd.DataFrame, metric):
+        fairness_metric = return_fairness_metric(metric)
+        fairness_metric_obj = fairness_metric()
+        return fairness_metric_obj.fairness_evaulation(bias_analysis_dataframe)
+
+
 
 
 def return_fairness_metric(metric):
