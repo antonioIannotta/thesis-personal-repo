@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 #from fairness import Fairness
 
 class Disparate_Impact():
@@ -6,11 +7,9 @@ class Disparate_Impact():
         pass
         
     def check(self, df: pd.DataFrame) -> pd.DataFrame:
-        y = df[df.columns[len(df.columns) - 1]][1:]
-        df.columns = df.iloc[0]
         sensitive_attributes = return_sensitive_attributes(df)
         normalized_df = columns_normalization_max_min(df, sensitive_attributes)
-        return_disparate_impact(normalized_df, sensitive_attributes)
+        return return_disparate_impact(normalized_df, sensitive_attributes)
         
 
 
@@ -47,13 +46,19 @@ def columns_normalization_max_min(df: pd.DataFrame, sensitive_attributes):
     return df
 
 def return_disparate_impact(df: pd.DataFrame, sensitive_attributes) -> pd.DataFrame:
-    disparate_impact_dataframe = pd.DataFrame(columns=["Attribute", "Disparate Impact"])
+    #disparate_impact_dataframe = pd.DataFrame(columns=["Attribute", "Disparate Impact"])
+    attr_series = pd.Series(sensitive_attributes)
+    di_array = []
     for attribute in sensitive_attributes:
-        print(attribute)
         pr_unpriv = compute_di(df, attribute, 0, df.columns[len(df.columns) - 1], 1)
         pr_priv = compute_di(df, attribute, 1, df.columns[len(df.columns) - 1], 1)
-        print(pr_unpriv / pr_priv)
+        di = pr_unpriv / pr_priv
+        di_array.append(di)
         #disparate_impact_dataframe = disparate_impact_dataframe.append({attribute: pr_unpriv / pr_priv}, ignore_index=True)
+    
+    di_series = pd.Series(np.array(di_array))
+    disparate_impact_dataframe = pd.DataFrame({"Attribute": attr_series, "Disparate Impact": di_series})
+    return disparate_impact_dataframe
 
 def compute_di(df: pd.DataFrame, attribute, attr_value, output_col, output_value):
     attribute_columns_data = df[df[attribute] == attr_value]
