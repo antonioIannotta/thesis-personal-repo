@@ -7,16 +7,17 @@ class Disparate_Impact():
         
     def check(self, df: pd.DataFrame) -> pd.DataFrame:
         y = df[df.columns[len(df.columns) - 1]][1:]
+        df.columns = df.iloc[0]
         sensitive_attributes = return_sensitive_attributes(df)
         normalized_df = columns_normalization_max_min(df, sensitive_attributes)
-        return return_disparate_impact(normalized_df, sensitive_attributes)
+        return_disparate_impact(normalized_df, sensitive_attributes)
         
 
 
 def return_sensitive_attributes(df: pd.DataFrame):
     sensitive_attributes = []
 
-    for attr in df.columns:
+    for attr in df.columns[:len(df.columns) - 1]:
         unique_values = return_unique_values_for_attribute(attr, df)
         if len(unique_values) == 2:
             sensitive_attributes.append(attr)
@@ -48,9 +49,11 @@ def columns_normalization_max_min(df: pd.DataFrame, sensitive_attributes):
 def return_disparate_impact(df: pd.DataFrame, sensitive_attributes) -> pd.DataFrame:
     disparate_impact_dataframe = pd.DataFrame(columns=["Attribute", "Disparate Impact"])
     for attribute in sensitive_attributes:
+        print(attribute)
         pr_unpriv = compute_di(df, attribute, 0, df.columns[len(df.columns) - 1], 1)
         pr_priv = compute_di(df, attribute, 1, df.columns[len(df.columns) - 1], 1)
-        disparate_impact_dataframe = disparate_impact_dataframe.append({attribute: pr_unpriv / pr_priv}, ignore_index=True)
+        print(pr_unpriv / pr_priv)
+        #disparate_impact_dataframe = disparate_impact_dataframe.append({attribute: pr_unpriv / pr_priv}, ignore_index=True)
 
 def compute_di(df: pd.DataFrame, attribute, attr_value, output_col, output_value):
     attribute_columns_data = df[df[attribute] == attr_value]
