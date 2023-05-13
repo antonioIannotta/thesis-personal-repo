@@ -19,7 +19,7 @@ class Fairness:
         fairness_metric_obj.check(df)
 
 
-def return_fairness_metric(self, metric):
+def return_fairness_metric(metric):
     match metric:
         case "unbalanced_dataset":
             return Unbalanced_Dataset
