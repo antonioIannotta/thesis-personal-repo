@@ -13,11 +13,13 @@ class Fairness:
     def __init__(self) -> None:
         pass
 
-    def check_for_bias(self, original_dataframe: pd.DataFrame, metric):
+    #This method allow to check bias into the dataset according to a specific metric
+    def check_for_bias(self, dataset: pd.DataFrame, metric):
         fairness_metric = return_fairness_metric(metric)
         fairness_metric_obj = fairness_metric()
-        return fairness_metric_obj.check(original_dataframe)
+        return fairness_metric_obj.check(dataset)
     
+    #This method executes a fairness evaluation starting from the result of the check
     def establish_fairness(self, bias_analysis_dataframe: pd.DataFrame, metric):
         fairness_metric = return_fairness_metric(metric)
         fairness_metric_obj = fairness_metric()
@@ -25,7 +27,7 @@ class Fairness:
 
 
 
-
+#This method returns the class of the selected metric
 def return_fairness_metric(metric):
     match metric:
         case "unbalanced_dataset":
